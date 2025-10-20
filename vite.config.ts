@@ -23,7 +23,6 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: './index.html',
-        gallery: './gallery.html',
       },
     },
   },
