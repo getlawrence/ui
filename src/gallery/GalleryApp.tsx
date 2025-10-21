@@ -140,7 +140,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '500px', minHeight: '500px' }}>
               <ConfigEditorSideBySide 
                 value={sampleConfig}
-                onChange={(value: string) => console.log('Config changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )
@@ -151,7 +151,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '500px', minHeight: '500px' }}>
               <ConfigEditorSideBySide 
                 value={simpleConfig}
-                onChange={(value: string) => console.log('Config changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )
@@ -162,7 +162,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '500px', minHeight: '500px' }}>
               <ConfigEditorSideBySide 
                 value=""
-                onChange={(value: string) => console.log('Config changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )
@@ -182,7 +182,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '400px', minHeight: '400px' }}>
               <YamlEditor 
                 value={sampleConfig}
-                onChange={(value: string) => console.log('YAML changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )
@@ -193,7 +193,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '400px', minHeight: '400px' }}>
               <YamlEditor 
                 value={simpleConfig}
-                onChange={(value: string) => console.log('YAML changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )
@@ -204,7 +204,7 @@ function GalleryContent() {
             <div style={{ width: '100%', height: '400px', minHeight: '400px' }}>
               <YamlEditor 
                 value=""
-                onChange={(value: string) => console.log('YAML changed:', value)}
+                onChange={(_value: string) => {}}
               />
             </div>
           )

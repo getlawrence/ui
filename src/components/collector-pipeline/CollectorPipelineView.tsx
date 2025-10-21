@@ -58,15 +58,8 @@ export function CollectorPipelineView({
 
   // Generate nodes and edges for React Flow
   useEffect(() => {
-    console.log('CollectorPipelineView: useEffect triggered', { 
-      effectiveConfig: effectiveConfig ? 'present' : 'empty', 
-      previewMode, 
-      configHash 
-    });
-
     if (!effectiveConfig) {
       // No config available yet
-      console.log('CollectorPipelineView: Setting empty nodes/edges');
       setNodes([]);
       setEdges([]);
       return;
@@ -81,38 +74,29 @@ export function CollectorPipelineView({
           previewMode ? [] : metricsData || [],
         );
 
-      console.log('CollectorPipelineView: Generated nodes/edges', { 
-        nodeCount: generatedNodes.length, 
-        edgeCount: generatedEdges.length 
-      });
-
       setNodes(generatedNodes);
       setEdges(generatedEdges);
     } catch (error) {
-      console.error('CollectorPipelineView: Error generating nodes/edges', error);
       setNodes([]);
       setEdges([]);
     }
-  }, [effectiveConfig, previewMode]); // REMOVED setNodes, setEdges, configHash from dependencies
+  }, [effectiveConfig, previewMode]);
 
   // Track when component unmounts
   useEffect(() => {
     return () => {
-      console.log('CollectorPipelineView: Component unmounting');
+      // Component unmounting
     };
   }, []);
 
   // Handle React Flow initialization
   const onInit = useCallback((reactFlowInstance: any) => {
-    console.log('CollectorPipelineView: React Flow initialized');
-    
     // Only fit view after initialization and if we have nodes
     setTimeout(() => {
       try {
-        console.log('CollectorPipelineView: Fitting view after initialization');
         reactFlowInstance.fitView({ padding: 0.1, duration: 1000 });
       } catch (error) {
-        console.warn('CollectorPipelineView: FitView failed after init:', error);
+        // FitView failed
       }
     }, 500);
   }, []); // Empty dependency array to prevent re-creation
@@ -135,13 +119,6 @@ export function CollectorPipelineView({
     );
   }
 
-  console.log('CollectorPipelineView: Rendering', { 
-    nodeCount: nodes.length, 
-    edgeCount: edges.length, 
-    configHash,
-    hasEffectiveConfig: !!effectiveConfig,
-    timestamp: new Date().toISOString()
-  });
 
   return (
     <div className="h-full flex flex-col" data-testid="collector-pipeline-view">
