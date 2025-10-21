@@ -1,295 +1,203 @@
 # Lawrence UI Components
 
-A shared UI component library for Lawrence projects, providing reusable React components for OpenTelemetry collector configuration and pipeline visualization.
+A collection of reusable React components for Lawrence projects, published via GitHub Packages.
 
-## Components
+## Installation
 
-### YamlEditor
+### Prerequisites
 
-A standalone YAML editor component with built-in validation, syntax highlighting, and error reporting. Built on top of Monaco Editor with custom validation logic.
+- Node.js 18 or higher
+- React 18 or higher
 
-**Features:**
-- Monaco Editor with YAML syntax highlighting
-- Real-time YAML parsing and validation
-- Error and warning indicators
-- Theme support (light/dark)
-- Configurable header and validation display
-- Read-only mode support
-- Placeholder text support
+### Install from GitHub Packages
 
-**Usage:**
-```tsx
-import { YamlEditor } from '@lawrence/ui';
+1. Configure npm to use GitHub Packages:
 
-function MyComponent() {
-  const [config, setConfig] = useState(yamlConfig);
-  
-  return (
-    <YamlEditor
-      value={config}
-      onChange={setConfig}
-      height="400px"
-      showValidation={true}
-      showHeader={true}
-      placeholder="Enter your YAML configuration..."
-    />
-  );
-}
+```bash
+# Create or update .npmrc in your project root
+echo "@lawrence:registry=https://npm.pkg.github.com" >> .npmrc
+echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> .npmrc
 ```
 
-### CollectorPipelineView
-
-A React Flow-based component that visualizes OpenTelemetry collector pipeline configurations. It displays receivers, processors, and exporters in a flow diagram with real-time metrics support.
-
-**Features:**
-- Interactive pipeline visualization
-- Real-time metrics display
-- Support for traces, metrics, and logs pipelines
-- Responsive design with zoom and pan
-- Preview mode for configuration validation
-
-**Usage:**
-```tsx
-import { CollectorPipelineView } from '@lawrence/ui';
-
-function MyComponent() {
-  return (
-    <CollectorPipelineView
-      effectiveConfig={yamlConfig}
-      previewMode={true}
-      agentId="my-agent"
-    />
-  );
-}
-```
-
-### ConfigEditorSideBySide
-
-A side-by-side editor that combines a Monaco YAML editor with the pipeline visualization. Perfect for configuration editing with real-time validation and preview.
-
-**Features:**
-- Monaco Editor with YAML syntax highlighting
-- Real-time YAML parsing and validation
-- Side-by-side pipeline visualization
-- Resizable panels
-- Error and warning indicators
-- Theme support (light/dark)
-
-**Usage:**
-```tsx
-import { ConfigEditorSideBySide } from '@lawrence/ui';
-
-function MyComponent() {
-  const [config, setConfig] = useState(yamlConfig);
-  
-  return (
-    <ConfigEditorSideBySide
-      value={config}
-      onChange={setConfig}
-    />
-  );
-}
-```
-
-## Getting Started
-
-### Installation
+2. Install the package:
 
 ```bash
 npm install @lawrence/ui
 ```
 
-### Dependencies
-
-The components require the following peer dependencies:
-- React 18+
-- React DOM 18+
-
-### Basic Setup
+## Quick Start
 
 ```tsx
-import { ThemeProvider } from '@lawrence/ui';
-import '@lawrence/ui/dist/styles.css';
+import { CollectorPipelineView, YamlEditor } from '@lawrence/ui';
 
 function App() {
   return (
-    <ThemeProvider>
-      {/* Your app content */}
-    </ThemeProvider>
+    <div>
+      <CollectorPipelineView />
+      <YamlEditor />
+    </div>
   );
 }
 ```
+
+## Available Components
+
+### Collector Pipeline Components
+
+- `CollectorPipelineView` - Main pipeline visualization component
+- `PipelineGenerator` - Pipeline generation utilities
+
+### Configuration Components
+
+- `ConfigEditorSideBySide` - Side-by-side configuration editor
+- `YamlEditor` - YAML editor with syntax highlighting
+
+### UI Components
+
+- `Alert` - Alert notifications
+- `Badge` - Status badges
+- `Card` - Content cards
+- `Resizable` - Resizable panels
+
+## Usage Examples
+
+### Collector Pipeline
+
+```tsx
+import { CollectorPipelineView } from '@lawrence/ui';
+
+function PipelinePage() {
+  const pipelineConfig = {
+    // your pipeline configuration
+  };
+
+  return (
+    <CollectorPipelineView 
+      config={pipelineConfig}
+      onConfigChange={(newConfig) => {
+        // handle configuration changes
+      }}
+    />
+  );
+}
+```
+
+### YAML Editor
+
+```tsx
+import { YamlEditor } from '@lawrence/ui';
+
+function ConfigEditor() {
+  const [yamlContent, setYamlContent] = useState('');
+
+  return (
+    <YamlEditor
+      value={yamlContent}
+      onChange={setYamlContent}
+      language="yaml"
+      height="400px"
+    />
+  );
+}
+```
+
+### Configuration Editor
+
+```tsx
+import { ConfigEditorSideBySide } from '@lawrence/ui';
+
+function ConfigPage() {
+  return (
+    <ConfigEditorSideBySide
+      leftContent="<!-- YAML content -->"
+      rightContent="<!-- JSON content -->"
+      onLeftChange={(content) => console.log('Left changed:', content)}
+      onRightChange={(content) => console.log('Right changed:', content)}
+    />
+  );
+}
+```
+
+## Styling
+
+The components use Tailwind CSS for styling. Make sure to include Tailwind in your project:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## TypeScript Support
+
+The package includes full TypeScript definitions. All components are properly typed and include JSDoc comments for better IDE support.
 
 ## Development
 
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-
-### Setup
+### Local Development
 
 ```bash
+# Clone the repository
+git clone https://github.com/your-username/lawrence-ui.git
+cd lawrence-ui
+
 # Install dependencies
 npm install
 
-# Start Storybook for development
-npm run storybook
+# Start development server
+npm run dev
 
-# Build the library
+# Run gallery (component showcase)
+npm run gallery
+```
+
+### Building
+
+```bash
+# Build the package
 npm run build
 
-# Run type checking
+# Type check
 npm run type-check
 
-# Run linting
+# Lint
 npm run lint
 ```
 
-### Storybook
+## Publishing
 
-The project includes Storybook for component development and testing:
-
-```bash
-npm run storybook
-```
-
-This will start Storybook on `http://localhost:6006` where you can:
-- View all components with different configurations
-- Test component interactions
-- Develop new features
-- Document component usage
-
-### Available Stories
-
-- **YamlEditor**: Standalone editor with various configurations and validation states
-- **CollectorPipelineView**: Various pipeline configurations and states
-- **ConfigEditorSideBySide**: Editor with different YAML configurations
-
-## Testing
-
-This project includes comprehensive testing with multiple approaches:
-
-### Test Types
-
-- **Unit Tests**: Jest + React Testing Library for component logic
-- **Visual Tests**: Storybook Test Runner for real DOM interactions  
-- **Visual Regression**: Screenshot comparison for UI consistency
-- **Accessibility**: Automated a11y testing with axe-core
-
-### Running Tests
-
-```bash
-# Run all tests (unit + visual + accessibility)
-npm run test:all
-
-# Unit tests only
-npm test
-
-# Visual & interaction tests
-npm run test:storybook
-
-# Visual regression tests
-npm run test:visual
-
-# Unit tests with coverage
-npm run test:coverage
-```
-
-For detailed testing information, see [TESTING.md](./TESTING.md).
-
-## Configuration Format
-
-The components expect OpenTelemetry collector configuration in YAML format:
-
-```yaml
-receivers:
-  otlp:
-    protocols:
-      grpc:
-        endpoint: 0.0.0.0:4317
-
-processors:
-  batch:
-    timeout: 1s
-
-exporters:
-  logging:
-    loglevel: debug
-
-service:
-  pipelines:
-    traces:
-      receivers: [otlp]
-      processors: [batch]
-      exporters: [logging]
-```
-
-## Theming
-
-The components support light and dark themes. Use the `ThemeProvider` to control the theme:
-
-```tsx
-import { ThemeProvider, useTheme } from '@lawrence/ui';
-
-function App() {
-  return (
-    <ThemeProvider>
-      <MyApp />
-    </ThemeProvider>
-  );
-}
-
-function MyApp() {
-  const { theme, setTheme } = useTheme();
-  
-  return (
-    <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
-      Toggle Theme
-    </button>
-  );
-}
-```
-
-## API Reference
-
-### YamlEditor Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | YAML configuration string |
-| `onChange` | `(value: string) => void` | - | Callback when configuration changes |
-| `height` | `string \| number` | `"100%"` | Height of the editor |
-| `showValidation` | `boolean` | `true` | Whether to show validation badges |
-| `showHeader` | `boolean` | `true` | Whether to show the header with validation status |
-| `readOnly` | `boolean` | `false` | Whether the editor is read-only |
-| `placeholder` | `string` | - | Placeholder text when editor is empty |
-| `className` | `string` | - | Additional CSS classes |
-
-### CollectorPipelineView Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `agentId` | `string` | - | Agent ID for metrics fetching |
-| `agentName` | `string` | - | Display name for the agent |
-| `effectiveConfig` | `string` | - | YAML configuration string |
-| `previewMode` | `boolean` | `false` | If true, disables metrics fetching |
-
-### ConfigEditorSideBySide Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | - | YAML configuration string |
-| `onChange` | `(value: string) => void` | - | Callback when configuration changes |
+See [PUBLISHING.md](PUBLISHING.md) for detailed publishing instructions.
 
 ## Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests and stories
+4. Add tests if applicable
 5. Submit a pull request
+
+### Commit Convention
+
+We use conventional commits for automatic versioning:
+
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes
+- `refactor:` - Code refactoring
+- `test:` - Test changes
+- `chore:` - Maintenance tasks
 
 ## License
 
-MIT
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Support
+
+- [GitHub Issues](https://github.com/your-username/lawrence-ui/issues)
+- [Documentation](https://github.com/your-username/lawrence-ui#readme)
+- [Changelog](CHANGELOG.md)
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and version history.

@@ -18,6 +18,7 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "dist",
+    "emitDeclarationOnly": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
