@@ -216,7 +216,7 @@ function GalleryContent() {
   const currentComponent = components[selectedComponent as keyof typeof components];
 
   // Filter components based on search query
-  const filteredComponents = Object.entries(components).filter(([key, component]) => {
+  const filteredComponents = Object.entries(components).filter(([_key, component]) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
@@ -226,8 +226,6 @@ function GalleryContent() {
       component.tags.some(tag => tag.toLowerCase().includes(query))
     );
   });
-
-  const complexComponents = ['CollectorPipelineView', 'ConfigEditorSideBySide', 'YamlEditor'];
   
   // Group components by category
   const componentsByCategory = filteredComponents.reduce((acc, [key, component]) => {

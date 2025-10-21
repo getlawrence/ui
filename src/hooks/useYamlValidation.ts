@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import type { editor } from "monaco-editor";
 
 interface ValidationError {
@@ -15,7 +15,7 @@ interface ValidationResult {
 
 export function useYamlValidation(
   yamlString: string,
-  editorRef: React.RefObject<editor.IStandaloneCodeEditor | null>
+  _editorRef: React.RefObject<editor.IStandaloneCodeEditor | null>
 ): { validationResult: ValidationResult; isValidating: boolean } {
   const [validationResult, setValidationResult] = useState<ValidationResult>({
     valid: true,

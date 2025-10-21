@@ -3,12 +3,11 @@ import {
   Background,
   useNodesState,
   useEdgesState,
-  useReactFlow,
   type Node,
   type Edge,
 } from "@xyflow/react";
 import { RefreshCw, AlertCircle } from "lucide-react";
-import { useEffect, useCallback, useMemo, useState } from "react";
+import { useEffect, useCallback, useMemo } from "react";
 
 import "@xyflow/react/dist/style.css";
 
@@ -30,27 +29,6 @@ const nodeTypes = {
   connector: ConnectorNode,
 };
 
-// Component to handle fitView after nodes are loaded
-function FitViewOnLoad() {
-  const { fitView } = useReactFlow();
-  
-  useEffect(() => {
-    // Much longer delay and only fit once when nodes are stable
-    const timer = setTimeout(() => {
-      try {
-        console.log('FitViewOnLoad: Attempting fitView');
-        fitView({ padding: 0.1, duration: 1000 });
-        console.log('FitViewOnLoad: fitView completed');
-      } catch (error) {
-        console.warn('FitViewOnLoad: FitView failed:', error);
-      }
-    }, 1000); // Increased delay to 1 second
-    
-    return () => clearTimeout(timer);
-  }, [fitView]);
-  
-  return null;
-}
 
 interface CollectorPipelineViewProps {
   effectiveConfig?: string;
@@ -117,6 +95,28 @@ export function CollectorPipelineView({
     }
   }, [effectiveConfig, previewMode]); // REMOVED setNodes, setEdges, configHash from dependencies
 
+  // Track when component unmounts
+  useEffect(() => {
+    return () => {
+      console.log('CollectorPipelineView: Component unmounting');
+    };
+  }, []);
+
+  // Handle React Flow initialization
+  const onInit = useCallback((reactFlowInstance: any) => {
+    console.log('CollectorPipelineView: React Flow initialized');
+    
+    // Only fit view after initialization and if we have nodes
+    setTimeout(() => {
+      try {
+        console.log('CollectorPipelineView: Fitting view after initialization');
+        reactFlowInstance.fitView({ padding: 0.1, duration: 1000 });
+      } catch (error) {
+        console.warn('CollectorPipelineView: FitView failed after init:', error);
+      }
+    }, 500);
+  }, []); // Empty dependency array to prevent re-creation
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -142,28 +142,6 @@ export function CollectorPipelineView({
     hasEffectiveConfig: !!effectiveConfig,
     timestamp: new Date().toISOString()
   });
-
-  // Track when component unmounts
-  useEffect(() => {
-    return () => {
-      console.log('CollectorPipelineView: Component unmounting');
-    };
-  }, []);
-
-  // Handle React Flow initialization
-  const onInit = useCallback((reactFlowInstance: any) => {
-    console.log('CollectorPipelineView: React Flow initialized');
-    
-    // Only fit view after initialization and if we have nodes
-    setTimeout(() => {
-      try {
-        console.log('CollectorPipelineView: Fitting view after initialization');
-        reactFlowInstance.fitView({ padding: 0.1, duration: 1000 });
-      } catch (error) {
-        console.warn('CollectorPipelineView: FitView failed after init:', error);
-      }
-    }, 500);
-  }, []); // Empty dependency array to prevent re-creation
 
   return (
     <div className="h-full flex flex-col" data-testid="collector-pipeline-view">
