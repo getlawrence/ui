@@ -15,20 +15,20 @@ A collection of reusable React components for Lawrence projects, published via G
 
 ```bash
 # Create or update .npmrc in your project root
-echo "@lawrence:registry=https://npm.pkg.github.com" >> .npmrc
+echo "@getlawrence:registry=https://npm.pkg.github.com" >> .npmrc
 echo "//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN" >> .npmrc
 ```
 
 2. Install the package:
 
 ```bash
-npm install @lawrence/ui
+npm install @getlawrence/ui
 ```
 
 ## Quick Start
 
 ```tsx
-import { CollectorPipelineView, YamlEditor } from '@lawrence/ui';
+import { CollectorPipelineView, YamlEditor } from '@getlawrence/ui';
 
 function App() {
   return (
