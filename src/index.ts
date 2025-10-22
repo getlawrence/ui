@@ -20,5 +20,8 @@ export {
 export { useYamlParser } from "./hooks/useYamlParser";
 export { useYamlValidation } from "./hooks/useYamlValidation";
 
-// Export types and interfaces
-export type * from "./types";
+// Export validation system
+export * from "./lib/validation";
+
+// Export types and interfaces (excluding validation types that are already exported)
+export * from "./types";

@@ -1,25 +1,39 @@
 import { AlertCircle, Workflow, AlertTriangle } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import type { editor } from "monaco-editor";
 
 import { CollectorPipelineView } from "../collector-pipeline/CollectorPipelineView";
 import { YamlEditor } from "../editor/YamlEditor";
 import { Badge } from "../ui/badge";
 import { SideBySide } from "../ui/side-by-side";
 import { useYamlParser } from "../../hooks/useYamlParser";
-import { useYamlValidation } from "../../hooks/useYamlValidation";
+import type { Validator, ValidationResult } from "../../lib/validation";
 
 interface ConfigEditorSideBySideProps {
   value: string;
   onChange: (value: string) => void;
+  validators?: Validator[];
+  validationDebounceMs?: number;
 }
 
 export function ConfigEditorSideBySide({
   value,
   onChange,
+  validators,
+  validationDebounceMs,
 }: ConfigEditorSideBySideProps) {
-  const [showPipeline] = useState(true);
-  const { parseResult } = useYamlParser(value, { debounceMs: 300 });
-  const { validationResult } = useYamlValidation(value, { current: null });
+  const [validationResult, setValidationResult] = useState<ValidationResult>({
+    valid: true,
+    errors: [],
+  });
+  const [isValidating, setIsValidating] = useState(false);
+  const { parseResult, isParsing } = useYamlParser(value, { debounceMs: 300 });
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+
+  const handleValidationChange = (result: ValidationResult, validating: boolean) => {
+    setValidationResult(result);
+    setIsValidating(validating);
+  };
 
   const leftContent = (
     <div className="h-full border-r">
@@ -29,6 +43,10 @@ export function ConfigEditorSideBySide({
         height="100%"
         showValidation={true}
         showHeader={true}
+        editorRef={editorRef}
+        validators={validators}
+        validationDebounceMs={validationDebounceMs}
+        onValidationChange={handleValidationChange}
       />
     </div>
   );
@@ -111,25 +129,13 @@ export function ConfigEditorSideBySide({
   return (
     <div className="flex flex-col h-full">
       {/* Main Editor Area */}
-      {showPipeline ? (
-        <SideBySide
-          leftContent={leftContent}
-          rightContent={rightContent}
-          className="flex-1 min-h-0"
-          leftPanelProps={{ defaultSize: 50, minSize: 30 }}
-          rightPanelProps={{ defaultSize: 50, minSize: 30 }}
-        />
-      ) : (
-        <div className="flex-1 overflow-hidden">
-          <YamlEditor
-            value={value}
-            onChange={onChange}
-            height="100%"
-            showValidation={true}
-            showHeader={false}
-          />
-        </div>
-      )}
+      <SideBySide
+        leftContent={leftContent}
+        rightContent={rightContent}
+        className="flex-1 min-h-0"
+        leftPanelProps={{ defaultSize: 50, minSize: 30 }}
+        rightPanelProps={{ defaultSize: 50, minSize: 30 }}
+      />
     </div>
   );
 }

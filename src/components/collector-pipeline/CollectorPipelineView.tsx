@@ -3,8 +3,8 @@ import {
   Background,
   useNodesState,
   useEdgesState,
-  type Node,
-  type Edge,
+  Node,
+  Edge,
 } from "@xyflow/react";
 import { RefreshCw, AlertCircle } from "lucide-react";
 import { useEffect, useCallback, useMemo } from "react";

@@ -1,6 +1,7 @@
 // Re-export commonly used types from dependencies
 export type { ComponentProps } from "react";
 export type { Node, Edge } from "@xyflow/react";
+export type { Validator, ValidationResult } from "../lib/validation";
 
 // Component prop types
 export interface CollectorPipelineViewProps {
@@ -16,15 +17,10 @@ export interface CollectorPipelineMiniProps {
 }
 
 export interface ConfigEditorSideBySideProps {
-  leftContent: string;
-  rightContent: string;
-  onLeftChange?: (content: string) => void;
-  onRightChange?: (content: string) => void;
-  leftPanelProps?: Record<string, any>;
-  rightPanelProps?: Record<string, any>;
-  direction?: "horizontal" | "vertical";
-  className?: string;
-  showHandle?: boolean;
+  value: string;
+  onChange: (value: string) => void;
+  validators?: import("../lib/validation").Validator[];
+  validationDebounceMs?: number;
 }
 
 export interface YamlEditorProps {
@@ -35,6 +31,9 @@ export interface YamlEditorProps {
   className?: string;
   readOnly?: boolean;
   theme?: "vs-dark" | "vs-light";
+  validators?: import("../lib/validation").Validator[];
+  validationDebounceMs?: number;
+  onValidationChange?: (validationResult: import("../lib/validation").ValidationResult, isValidating: boolean) => void;
 }
 
 // Hook types
@@ -48,17 +47,7 @@ export interface ParseResult {
   error?: string;
 }
 
-export interface ValidationError {
-  severity: "error" | "warning";
-  message: string;
-  line?: number;
-  column?: number;
-}
-
-export interface ValidationResult {
-  valid: boolean;
-  errors: ValidationError[];
-}
+// ValidationError and ValidationResult are now exported from the validation library
 
 // Node types for pipeline components
 export interface PipelineNodeData {

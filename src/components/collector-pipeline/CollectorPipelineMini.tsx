@@ -2,8 +2,8 @@ import {
   ReactFlow,
   useNodesState,
   useEdgesState,
-  type Node,
-  type Edge,
+  Node,
+  Edge,
 } from "@xyflow/react";
 import { AlertCircle } from "lucide-react";
 import { useEffect, useMemo } from "react";
