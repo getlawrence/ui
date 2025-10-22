@@ -1,6 +1,6 @@
 {
   "name": "@getlawrence/ui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Shared UI components for Lawrence projects",
   "type": "module",
   "main": "dist/index.js",
