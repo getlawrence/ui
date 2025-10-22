@@ -1,3 +1,6 @@
+// Import styles
+import './styles.css';
+
 // Export all components
 export { default as CollectorPipelineView } from './components/collector-pipeline/CollectorPipelineView';
 export { default as ConfigEditorSideBySide } from './components/configs/ConfigEditorSideBySide';

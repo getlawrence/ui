@@ -120,12 +120,99 @@ function ConfigPage() {
 
 ## Styling
 
-The components use Tailwind CSS for styling. Make sure to include Tailwind in your project:
+The components use Tailwind CSS for styling and include a shared design system. This library provides both a Tailwind preset and pre-built CSS to ensure consistent styling across projects.
+
+### Using the Tailwind Preset
+
+The library includes a Tailwind preset that provides shared design tokens and configuration. To use it:
+
+1. **Install the library** (see Installation section above)
+
+2. **Configure your Tailwind config** to use the preset:
+
+```javascript
+// tailwind.config.js
+import base from '@getlawrence/ui/tailwind.preset.js'
+
+export default {
+  presets: [base],
+  content: [
+    './src/**/*.{ts,tsx}',
+    './node_modules/@getlawrence/ui/**/*.{js,ts,jsx,tsx}',
+  ],
+  // Your additional configuration here
+}
+```
+
+3. **Import the CSS** in your main entry point:
+
+```tsx
+// In your main.tsx or App.tsx
+import '@getlawrence/ui/styles.css'
+```
+
+### Design Tokens
+
+The preset includes the following design tokens:
+
+- **Colors**: Primary, secondary, muted, accent, destructive, background, foreground, card, popover, border, input, ring
+- **Border Radius**: Uses CSS variables for consistent rounded corners
+- **Animations**: Accordion animations and other shared transitions
+
+### CSS Variables
+
+The library uses CSS variables for theming, supporting both light and dark modes:
 
 ```css
+:root {
+  --background: 0 0% 100%;
+  --foreground: 222.2 84% 4.9%;
+  --primary: 222.2 47.4% 11.2%;
+  --primary-foreground: 210 40% 98%;
+  /* ... and more */
+}
+
+.dark {
+  --background: 222.2 84% 4.9%;
+  --foreground: 210 40% 98%;
+  /* ... dark mode variants */
+}
+```
+
+### Customization
+
+You can override the design tokens by providing your own CSS variables:
+
+```css
+:root {
+  --primary: 220 100% 50%; /* Your custom primary color */
+  --radius: 0.75rem; /* Your custom border radius */
+}
+```
+
+### Without the Preset
+
+If you prefer not to use the preset, you can still use the components by including the CSS and ensuring Tailwind is configured to scan the library files:
+
+```css
+/* In your main CSS file */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Import the library styles */
+@import '@getlawrence/ui/styles.css';
+```
+
+```javascript
+// tailwind.config.js
+export default {
+  content: [
+    './src/**/*.{ts,tsx}',
+    './node_modules/@getlawrence/ui/**/*.{js,ts,jsx,tsx}',
+  ],
+  // Your configuration
+}
 ```
 
 ## TypeScript Support

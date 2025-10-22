@@ -31,7 +31,7 @@ export default [
       }),
       commonjs(),
       postcss({
-        extract: false,
+        extract: true,
         modules: false,
         minimize: true,
       }),
