@@ -4,7 +4,7 @@ interface ProcessorMiniProps {
   data: any;
 }
 
-export const ProcessorMini = ({ data }: ProcessorMiniProps) => {
+export const ProcessorMini = ({ data: _data }: ProcessorMiniProps) => {
   return (
     <div className="relative">
       <div className="w-4 h-4 rounded-full bg-green-500 dark:bg-green-400 shadow-sm border border-green-600 dark:border-green-300" />

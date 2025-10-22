@@ -1,6 +1,6 @@
 import yaml from "js-yaml";
 import type { editor } from "monaco-editor";
-import { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import {
   validateYamlConfig,

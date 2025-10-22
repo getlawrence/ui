@@ -1,7 +1,7 @@
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { AlertCircle, Loader2, AlertTriangle } from "lucide-react";
 import type { editor } from "monaco-editor";
-import { useRef, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 import { useTheme } from "../ThemeProvider/ThemeProvider";
 import { Badge } from "../ui/badge";
