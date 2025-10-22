@@ -6,6 +6,16 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles": "./dist/index.css",
+    "./tailwind-preset": "./tailwind.preset.js",
+    "./package.json": "./package.json"
+  },
   "files": [
     "dist",
     "tailwind.preset.js",
@@ -24,19 +34,34 @@
   },
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
-    "dev": "rollup -c -w --bundleConfigAsCjs",
+    "build:clean": "rm -rf dist && npm run build",
+    "build:watch": "rollup -c -w --bundleConfigAsCjs",
+    "dev": "npm run build:watch",
     "type-check": "tsc --noEmit",
+    "type-check:watch": "tsc --noEmit --watch",
     "lint": "eslint src --ext .ts,.tsx",
-    "prepublishOnly": "npm run build",
-    "version": "npm run build && git add -A dist",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "prepublishOnly": "npm run build:clean",
+    "version": "npm run build:clean && git add -A dist",
     "postversion": "git push && git push --tags",
-    "test:publish": "node scripts/test-publish.js"
+    "test:publish": "node scripts/test-publish.js",
+    "clean": "rm -rf dist",
+    "size": "npm run build && npx bundlephobia"
   },
   "keywords": [
     "react",
     "ui",
     "components",
-    "lawrence"
+    "lawrence",
+    "typescript",
+    "collector",
+    "pipeline",
+    "yaml",
+    "editor",
+    "monaco",
+    "react-flow",
+    "data-pipeline",
+    "configuration-editor"
   ],
   "author": "Lawrence Team",
   "license": "MIT",

@@ -28,13 +28,26 @@ npm install @getlawrence/ui
 ## Quick Start
 
 ```tsx
-import { CollectorPipelineView, YamlEditor } from '@getlawrence/ui';
+import { 
+  CollectorPipelineView, 
+  YamlEditor,
+  ConfigEditorSideBySide,
+  useYamlParser,
+  useYamlValidation
+} from '@getlawrence/ui';
+
+// Import styles separately
+import '@getlawrence/ui/styles';
 
 function App() {
   return (
     <div>
       <CollectorPipelineView />
       <YamlEditor />
+      <ConfigEditorSideBySide 
+        leftContent="yaml content"
+        rightContent="json content"
+      />
     </div>
   );
 }
@@ -45,19 +58,26 @@ function App() {
 ### Collector Pipeline Components
 
 - `CollectorPipelineView` - Main pipeline visualization component
-- `PipelineGenerator` - Pipeline generation utilities
+- `CollectorPipelineMini` - Compact pipeline visualization
 
 ### Configuration Components
 
 - `ConfigEditorSideBySide` - Side-by-side configuration editor
 - `YamlEditor` - YAML editor with syntax highlighting
 
-### UI Components
+### Lawrence-Specific UI Components
 
-- `Alert` - Alert notifications
-- `Badge` - Status badges
-- `Card` - Content cards
-- `Resizable` - Resizable panels
+- `SideBySide` - Side-by-side layout component
+
+### Theme Provider
+
+- `ThemeProvider` - Theme context provider
+- `useTheme` - Theme hook
+
+### Hooks
+
+- `useYamlParser` - YAML parsing with debouncing
+- `useYamlValidation` - YAML validation with error reporting
 
 ## Usage Examples
 
