@@ -1,12 +1,13 @@
 import Editor, { type OnMount } from "@monaco-editor/react";
 import { AlertCircle, Loader2, AlertTriangle } from "lucide-react";
 import type { editor } from "monaco-editor";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 import { useTheme } from "../ThemeProvider/ThemeProvider";
 import { Badge } from "../ui/badge";
 import { useYamlParser } from "../../hooks/useYamlParser";
 import { useYamlValidation } from "../../hooks/useYamlValidation";
+import type { Validator, ValidationResult } from "../../lib/validation";
 
 interface YamlEditorProps {
   value: string;
@@ -17,6 +18,10 @@ interface YamlEditorProps {
   readOnly?: boolean;
   placeholder?: string;
   className?: string;
+  editorRef?: React.RefObject<editor.IStandaloneCodeEditor | null>;
+  validators?: Validator[];
+  validationDebounceMs?: number;
+  onValidationChange?: (validationResult: ValidationResult, isValidating: boolean) => void;
 }
 
 export function YamlEditor({
@@ -28,18 +33,36 @@ export function YamlEditor({
   readOnly = false,
   placeholder,
   className,
+  editorRef: externalEditorRef,
+  validators,
+  validationDebounceMs,
+  onValidationChange,
 }: YamlEditorProps) {
   const { theme } = useTheme();
-  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const internalEditorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const editorRef = externalEditorRef || internalEditorRef;
   
   const { parseResult, isParsing } = useYamlParser(value, { debounceMs: 300 });
   const { validationResult, isValidating } = useYamlValidation(
     value,
     editorRef,
+    {
+      debounceMs: validationDebounceMs,
+      validators,
+    },
   );
 
+  // Call the validation callback when validation results change
+  useEffect(() => {
+    if (onValidationChange) {
+      onValidationChange(validationResult, isValidating);
+    }
+  }, [validationResult, isValidating, onValidationChange]);
+
   const handleEditorDidMount: OnMount = (editor) => {
-    editorRef.current = editor;
+    if (editorRef.current !== editor) {
+      (editorRef as React.MutableRefObject<editor.IStandaloneCodeEditor | null>).current = editor;
+    }
 
     // Configure hover provider to show validation errors
     const monaco = (
