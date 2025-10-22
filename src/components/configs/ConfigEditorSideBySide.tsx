@@ -26,7 +26,7 @@ export function ConfigEditorSideBySide({
     valid: true,
     errors: [],
   });
-  const [_isValidating, setIsValidating] = useState(false);
+  const [, setIsValidating] = useState(false);
   const { parseResult } = useYamlParser(value, { debounceMs: 300 });
   const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
 
