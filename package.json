@@ -27,8 +27,6 @@
     "dev": "rollup -c -w --bundleConfigAsCjs",
     "type-check": "tsc --noEmit",
     "lint": "eslint src --ext .ts,.tsx",
-    "gallery": "vite --config gallery/vite.config.ts",
-    "gallery:build": "vite build --config gallery/vite.config.ts",
     "prepublishOnly": "npm run build",
     "version": "npm run build && git add -A dist",
     "postversion": "git push && git push --tags",

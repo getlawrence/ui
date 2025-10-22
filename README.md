@@ -234,8 +234,6 @@ npm install
 # Start development server
 npm run dev
 
-# Run gallery (component showcase)
-npm run gallery
 ```
 
 ### Building
